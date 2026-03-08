@@ -1,0 +1,23 @@
+name: Dev CI Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  check-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Get Commit Message
+        id: commit
+        run: echo "msg=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+
+      - name: Check Deploy Trigger
+        if: contains(steps.commit.outputs.msg, 'deploy init')
+        run: echo "Deployment commit detected"
