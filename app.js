@@ -10,3 +10,8 @@ console.log("New Feature Added!!");
 
 // NEW CHANGES BY TEAM LEAD
 console.log("Testing Normal Commit");
+
+
+// DEPLOYMENT TESTs
+
+console.log("Deployment test");
