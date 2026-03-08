@@ -6,11 +6,10 @@ on:
       - dev
 
 jobs:
-  check-deploy:
+  deploy-check:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repo
         uses: actions/checkout@v3
 
@@ -18,6 +17,12 @@ jobs:
         id: commit
         run: echo "msg=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
 
-      - name: Check Deploy Trigger
+      - name: Create PR to main
         if: contains(steps.commit.outputs.msg, 'deploy init')
-        run: echo "Deployment commit detected"
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: dev
+          title: Deploy to Production
+          body: Auto deployment triggered by commit message "deploy init"
